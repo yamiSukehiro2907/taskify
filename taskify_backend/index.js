@@ -26,7 +26,7 @@ async function startServer() {
 }
 
 app.use('/api/auth', require('./routes/auth.route.js'));
-
+app.use('/api/user', require('./routes/user.route.js'));
 
 startServer();
 
