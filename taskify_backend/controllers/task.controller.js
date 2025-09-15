@@ -33,4 +33,25 @@ const getTask = async (req, res) => {
     return res.status(200).json(tasks);
 }
 
-module.exports = {createTask , getTask};
+const markDone = async (req, res) => {
+    const user = req.user;
+    if (!user) {
+        return res.status(400).json({message: 'User not found'});
+    }
+
+    const id = req.params.id;
+
+    const task = await Task.findById(id)
+
+    if (!task || task.userId !== user.id) {
+        return res.status(400).json({message: 'Task not found'});
+    }
+    if (task.isDone) {
+        return res.status(400).json({message: 'Task already completed'});
+    }
+
+    task.isDone = true;
+    await task.save();
+    return res.status(200).json({message: 'Task completed'});
+}
+module.exports = {createTask, getTask, markDone};
