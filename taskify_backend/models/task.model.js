@@ -12,9 +12,11 @@ const TaskSchema = mongoose.Schema({
     },
     description: {
         type: String,
+        default: '',
     },
     category: {
         type: String,
+        required: true,
     },
     isDone: {
         type: Boolean,

@@ -3,6 +3,8 @@ require("dotenv").config();
 const app = express();
 const connectMongoDB = require("./config/mongodb")
 const cookieParser = require("cookie-parser");
+const validateToken = require("./middleware/validation.token.js");
+const createTask = require("./controllers/task.controller");
 
 
 app.use(express.json())
@@ -27,6 +29,7 @@ async function startServer() {
 
 app.use('/api/auth', require('./routes/auth.route.js'));
 app.use('/api/user', require('./routes/user.route.js'));
+app.use('/api/tasks', validateToken, require('./routes/task.route.js'));
 
 startServer();
 
