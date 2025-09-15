@@ -54,8 +54,8 @@ const loginUser = async (req, res) => {
             const accessToken = await generateAccessToken(user.id);
             const refreshToken = await generateRefreshToken(user.id);
 
-            res.cookie("accessToken", accessToken, {httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000});
-            res.cookie("refreshToken", refreshToken, {httpOnly: true, sameSite: true, maxAge: 7 * 24 * 60 * 60 * 1000});
+            res.cookie("accessToken", accessToken, {httpOnly: true, sameSite: "lax", maxAge: 60 * 60 * 1000});
+            res.cookie("refreshToken", refreshToken, {httpOnly: true, sameSite: "lax", maxAge: 7 * 24 * 60 * 60 * 1000});
             user.refreshToken = refreshToken;
             await user.save()
 

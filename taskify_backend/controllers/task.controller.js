@@ -54,4 +54,20 @@ const markDone = async (req, res) => {
     await task.save();
     return res.status(200).json({message: 'Task completed'});
 }
-module.exports = {createTask, getTask, markDone};
+
+
+const deleteTask = async (req, res) => {
+    const user = req.user;
+    if (!user) {
+        return res.status(400).json({message: 'User not found'});
+    }
+    const id = req.params.id;
+    const task = await Task.findById(id);
+    if (!task || task.userId !== user.id) {
+        return res.status(400).json({message: 'Task not found'});
+    }
+
+    await Task.findByIdAndDelete(id)
+    return res.status(200).json({message: 'Task deleted successfully'});
+}
+module.exports = {createTask, getTask, markDone, deleteTask};
